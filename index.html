@@ -1,3 +1,149 @@
 ---
 layout: default
 ---
+
+<!-- index.html -->
+<!-- The pinned phone container at the very top (or inside .landingPage if you prefer). 
+     We'll overlay the phone shell (black.png) and a "screen" element that changes. 
+-->
+<div class="pinnedPhone">
+  <!-- The phone shell/frame -->
+  <img id="phoneShell" class="phoneShell" src="assets/black.png" alt="Phone Shell" />
+
+  <!-- The phone screen (default to your generate_dashboard.png) -->
+  <img id="phoneScreen" class="phoneScreen" 
+       src="assets/screenshot/yourscreenshot.png" 
+       alt="App screen" />
+  
+  <!-- If you want to show a video at some point, we can dynamically swap in a <video> 
+       or hide the <img> and show a <video> element. We'll add a <video> here, hidden by default.
+  -->
+  <video id="phoneVideo" class="phoneScreen" muted autoplay playsinline loop style="display: none;">
+    <source src="" type="video/mp4">
+    <!-- fallback text -->
+    Your browser does not support HTML5 video.
+  </video>
+</div>
+
+<div class="landingPage">
+
+  <!-- SECTION 1: instruct phone to show generate_dashboard.png -->
+  <section 
+    class="landing-section" 
+    id="section1" 
+    data-type="image"
+    data-screen="assets/screenshot/generate_dashboard.png"
+  >
+    <div class="section-content">
+      <div class="textContainer">
+        <h1>MealAi</h1>
+        <p class="introText">
+          Groceries that just get you
+        </p>
+        <a href="https://YOUR-MAILCHIMP-WAITLIST.com" 
+           class="joinWaitlistBtn"
+           target="_blank"
+        >
+          Join Waitlist
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: instruct phone to show the mp4 video generate_meals.mp4 -->
+  <section 
+    class="landing-section" 
+    id="section2"
+    data-type="video"
+    data-screen="assets/videos/generate_meals.mp4"
+  >
+    <div class="section-content">
+      <div class="textContainer">
+        <h2>Generate Recipes Tailored Just for You</h2>
+        <p>Our algorithm learns your preferences and creates custom meals.</p>
+        <a href="https://YOUR-MAILCHIMP-WAITLIST.com" 
+           class="joinWaitlistBtn topRight"
+           target="_blank"
+        >
+          Join Waitlist
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3 -->
+  <section 
+    class="landing-section" 
+    id="section3"
+    data-type="image"
+    data-screen="assets/screenshot/something_else.png"
+  >
+    <div class="section-content">
+      <h2>Another Awesome Feature</h2>
+      <p>Describe your next major selling point here as the third scene...</p>
+    </div>
+  </section>
+
+  <!-- SECTION 4 -->
+  <section 
+    class="landing-section" 
+    id="section4"
+    data-type="image"
+    data-screen="assets/screenshot/final_teaser.png"
+  >
+    <div class="section-content">
+      <h2>Final Teaser / CTA</h2>
+      <p>One last push to get them to sign up.</p>
+    </div>
+  </section>
+
+</div>
+
+<!-- A bit of JS to handle the scroll-triggered screen swaps -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const phoneScreen = document.getElementById("phoneScreen");
+  const phoneVideo = document.getElementById("phoneVideo");
+  const videoSource = phoneVideo.querySelector("source");
+  
+  // We want to observe each .landing-section
+  const sections = document.querySelectorAll(".landing-section");
+  
+  // Intersection Observer options: 
+  // threshold: 0.6 means the section must be 60% in view for it to count as "intersecting"
+  const options = {
+    threshold: 0.6
+  };
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // Read the data attributes
+        const screenType = entry.target.dataset.type;       // "image" or "video"
+        const screenSrc  = entry.target.dataset.screen;     // path to image or video
+        
+        if (screenType === "image") {
+          // Hide the video, show the image
+          phoneVideo.style.display = "none";
+          phoneScreen.style.display = "block";
+          phoneScreen.src = screenSrc;
+        } 
+        else if (screenType === "video") {
+          // Hide the image, show the video
+          phoneScreen.style.display = "none";
+          phoneVideo.style.display = "block";
+          // update the <source> and load the new video
+          videoSource.src = screenSrc;
+          phoneVideo.load();
+          phoneVideo.play();
+        }
+      }
+    });
+  }, options);
+  
+  // Attach observer to each section
+  sections.forEach(section => {
+    observer.observe(section);
+  });
+});
+</script>

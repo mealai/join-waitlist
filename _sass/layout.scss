@@ -1,3 +1,86 @@
+/********************************************
+  Landing Page Scroll Sections
+*********************************************/
+.landingPage {
+	// If you want no extra spacing around, ensure margin/padding is zero
+	margin: 0;
+	padding: 0;
+}
+  
+.landing-section {
+	/* Force each section to be at least full viewport height 
+	   so that user scrolling visibly transitions from one 
+	   to the next “scene.” 
+	*/
+	min-height: 100vh; 
+	display: flex;
+	align-items: center;     /* Center content vertically */
+	justify-content: center; /* Center content horizontally (optional) */
+	text-align: center;      /* Just an example for text alignment */
+}
+  
+.section-content {
+	/* A container to hold the phone and text side by side, etc. */
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
+  
+/* For smaller screens, stack the phone and text vertically */
+@media (max-width: 768px) {
+	.section-content {
+	  flex-direction: column;
+	}
+}
+  
+/* The phone container: adapt from your old .iphonePreview styling */
+.iphoneContainer {
+	margin: 0 2rem; /* spacing around the phone */
+	/* set the width/height as needed */
+}
+  
+.iphoneScreen {
+	width: 300px; /* or whatever you prefer */
+	/* any clip-path styling if you want to simulate phone edges, etc. */
+}
+  
+.iphoneVideo {
+	width: 300px;
+	height: auto;
+	/* optional styling here */
+}
+  
+/* The text container next to the phone */
+.textContainer {
+	max-width: 400px; 
+	margin: 0 2rem;
+}
+  
+/********************************************
+	Button styling
+*********************************************/
+.joinWaitlistBtn {
+	display: inline-block;
+	margin-top: 2rem;
+	padding: 1rem 2rem;
+	background: #1d63ea;
+	color: #fff;
+	font-weight: bold;
+	border-radius: 4px;
+	text-decoration: none;
+}
+  
+/* Move button to top right. 
+	 Usually, you'd position: absolute relative to a parent. 
+	 If you want it fixed across the entire page, do position: fixed. 
+*/
+.topRight {
+	position: absolute;
+	top: 2rem;
+	right: 2rem;
+	/* override margin: 0, etc. if needed */
+}
 .imageWrapper {					// Sets the background image in the header area
 	height: 714px;
 	background: 
@@ -145,7 +228,6 @@ header {
 	}	
 	
 } 
-
 
 // Navigation Links
 .scroll {
@@ -685,3 +767,30 @@ footer {
 .hidden {
 	display: none;
 }
+
+.pinnedPhone {
+	position: fixed; /* or absolute, depending on design */
+	top: 100px; /* tweak as needed */
+	left: 50px;
+	width: 300px;
+	z-index: 999; /* above the rest of the content */
+  }
+  
+  .phoneShell {
+	width: 100%;
+	display: block;
+  }
+  
+  /* Overlap the "screen" elements so they align with the phone shell’s screen area. 
+	 You might need absolute positioning and a carefully tuned top/left/width 
+	 to match the phone’s “screen cutout.”
+  */
+  .phoneScreen {
+	position: absolute;
+	top: 44px;    /* adjust so it lines up with the phone shell’s screen */
+	left: 34px; 
+	width: 232px; /* or whatever the screen hole size is */
+	height: auto;
+	border-radius: 8px; /* or clip-path if you prefer */
+  }
+  
